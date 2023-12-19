@@ -1,32 +1,28 @@
+import { DataTypes } from "sequelize";
+import sequelize from "../config/connection.js";
 
-const mongoose = require('mongoose');
-
-const Schema = mongoose.Schema;
-
-const Inbox = new Schema({
+const Inbox = sequelize.define("Inbox", {
     firstName:{
-        type: String,
-        required: true
-    },
+        type: DataTypes.STRING, allowNull:false, required:true
+    }
+    ,
     lastName:{
-        type: String,
-        required: true
+        type: DataTypes.STRING, allowNull:false, required:true
     },
     email:{
-        type: String,
-        required: true
+        type: DataTypes.STRING, allowNull:false, required:true
     },
     status:{
-        type:Boolean,
-        default:false
+        type: DataTypes.BOOLEAN, default:false,
     },
     message:{
-        type:String,
-        required:true
+        type: DataTypes.STRING, allowNull:false, required:true
     }
+})
     
+Inbox.sync();
+
+export default Inbox;
 
    
 
-})
-module.exports = mongoose.model('Inbox',Inbox);

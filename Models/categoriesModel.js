@@ -1,22 +1,22 @@
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 
-const Schema = mongoose.Schema
+// const Schema = mongoose.Schema
 
-const Categories = new Schema(
-    {
-        name : 
-        {
-            type : String,
-            required: true
-        },
+// const Categories = new Schema(
+//     {
+//         name : 
+//         {
+//             type : String,
+//             required: true
+//         },
 
-        image :
-        {
-            type : String
-        },
-        productId: {
-            type:mongoose.Types.ObjectId, ref: 'Product',
-        }
-    }
-)
-module.exports = mongoose.model('Category', Categories)
+//         image :
+//         {
+//             type : String
+//         },
+//         productId: {
+//             type:mongoose.Types.ObjectId, ref: 'Product',
+//         }
+//     }
+// )
+// module.exports = mongoose.model('Category', Categories)

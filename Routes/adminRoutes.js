@@ -1,14 +1,14 @@
-const express = require('express');
-const router = express.Router()
-const {loginAdmin, addAdmin} = require('../Controllers/adminController');
+// const express = require('express');
+// const router = express.Router()
+// const {loginAdmin, addAdmin} = require('../Controllers/adminController');
 
 
-// check the password and username
-router.post('/', loginAdmin)
+// // check the password and username
+// router.post('/', loginAdmin)
 
 
-// Create a new record
-router.post('/addRecord',addAdmin);
+// // Create a new record
+// router.post('/addRecord',addAdmin);
 
-module.exports = router
+// module.exports = router
 

@@ -1,19 +1,17 @@
+import express from 'express';
+import InboxController from '../Controllers/inboxController.js'
 
-const express = require('express');
-const router = express.Router()
-const {getMessage,updateMessage,addMessage,deleteMessage,getMessageById} = require('../Controllers/inboxController')
+const inboxRouter = express.Router()
 
+inboxRouter.get('/',InboxController.getAllMessages)
 
+inboxRouter.get('/:id', InboxController.getMessageById)
 
-router.get('/', getMessage)
+inboxRouter.post('/',InboxController.addMessage)
 
-router.get('/:id', getMessageById)
+inboxRouter.delete('/:id', InboxController.deleteMessage)
 
-router.post('/',addMessage)
+inboxRouter.patch('/:id', InboxController.updateMessage)
 
-router.delete('/:id', deleteMessage)
-
-router.patch('/:id', updateMessage)
-
-module.exports = router;
+export default inboxRouter;
 
