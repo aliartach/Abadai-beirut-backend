@@ -5,7 +5,7 @@ import cors from 'cors'
 // import categoriesRoutes from './Routes/categoriesRoutes.js'
 import inboxRoutes from './Routes/inboxRoutes.js'
 // import productsRoutes from './Routes/productsRoutes.js'
-// import adminRoutes from './Routes/adminRoutes.js'
+import adminRoutes from './Routes/adminRoutes.js'
 
 //express app
 const app = express();
@@ -20,7 +20,7 @@ app.use((req, res, next) => {
 app.use(cors());
 
 // routers
-// app.use('/api/admin',adminRoutes)
+app.use('/api/admin',adminRoutes)
 // app.use('/api/categories', categoriesRoutes)
 app.use("/api/inbox", inboxRoutes)
 // app.use("/api/products",productsRoutes)

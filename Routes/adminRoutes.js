@@ -1,14 +1,25 @@
-// const express = require('express');
-// const router = express.Router()
-// const {loginAdmin, addAdmin} = require('../Controllers/adminController');
+import adminController from '../Controllers/adminController.js'
+import express from 'express'
+// import Verification from '../Middleware/jwt.js';
+const adminRouter = express.Router();
+
+adminRouter.post('/',adminController.createAdmin);
+
+adminRouter.get('/',adminController.findallAdmins);
+
+adminRouter.get('/:id',adminController.findAdminByPk);
+
+adminRouter.delete('/:id',adminController.deleteAdmin);
+
+adminRouter.patch('/:id',adminController.updateAdmin)
 
 
-// // check the password and username
-// router.post('/', loginAdmin)
+
+export default adminRouter;
 
 
-// // Create a new record
-// router.post('/addRecord',addAdmin);
-
-// module.exports = router
-
+// Verification.verifyAdmin,
+// Verification.verifyAdmin,
+// Verification.verifyAdmin,
+// Verification.verifyAdmin,
+// Verification.verifyAdmin,
