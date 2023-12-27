@@ -1,43 +1,33 @@
-require('dotenv').config()
-const express = require('express');
-const cors = require('cors');
-const categoriesRoutes = require('./Routes/categoriesRoutes')
-const inboxRoutes = require('./Routes/inboxRoutes')
-const productsRoutes = require('./Routes/productsRoutes')
-const adminRoutes = require('./Routes/adminRoutes')
+import express from 'express';
+import sequelize from './Config/database.js';
+import UserRoutes from './Routes/UsersRoutes.js'
+import ReviewsRoutes from "./Routes/ReviewsRoutes.js";
+import OrdersRoutes from "./Routes/OrdersRoutes.js"
+import ProductsRoutes from "./Routes/productsRoutes.js";
+import MessagesRoutes from "./Routes/inboxRoutes.js";
+import CategoriesRoutes from "./Routes/categoriesRoutes.js";;
+import AdminsRoutes from "./Routes/adminRoutes.js";
+import cors  from "cors";
+import dotenv from 'dotenv';
 
-//express app
 const app = express();
-const mongoose = require('mongoose');
+dotenv.config();
 app.use(express.json());
-app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true }));
+app.use("/api",  UserRoutes);
+app.use("/api",  ReviewsRoutes);
+app.use("/api",  ProductsRoutes);
+app.use("/api",  OrdersRoutes);
+app.use("/api",  MessagesRoutes);
+app.use("/api",  CategoriesRoutes);
+app.use("/api",  AdminsRoutes);
 app.use(cors());
 
-
-//connecting to mongo db//
-
-mongoose.connect(process.env.MONGO_URI)
-.then(() => {
+try {
+  sequelize.sync().then(() => {
     app.listen(process.env.PORT, () => {
-
-        console.log("connected to db & running on port", process.env.PORT);
-
-    }); 
-})
-.catch((error) => {
-    console.error(error);
-})
-//middlewear function//
-
-app.use(express.json())
-app.use((req, res, next) => {
-//   console.log(req.path, req.method)
-  next()
-})
-
-
-app.use('/api/categories', categoriesRoutes)
-app.use('/api/inbox', inboxRoutes)
-app.use('/api/products', productsRoutes)
-app.use('/api/admin', adminRoutes)
+      console.log('listening on port', process.env.PORT);
+    });
+  });
+} catch (error) {
+  console.error('Error during initialization:', error);
+}

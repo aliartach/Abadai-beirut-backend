@@ -1,16 +1,12 @@
-const express = require('express')
-const {createCategory, getCategory, getCategories, deleteCategory, updateCategory} = require('../Controllers/categoriesController')
-const upload = require('../Middleware/multer')
-const router = express.Router()
+import express from 'express';
+import { getallCategories , getcategoryById , createcategory , updatecategory , deletecategory } from '../Controllers/categoriesController.js';
+import upload  from '../Middleware/Multer.js';
+const router = express.Router();
 
-router.get('/', getCategories)
+router.get('/Categories', getallCategories)
+router.get('/Categories:id' , getcategoryById)
+router.post('/Categories',upload.single('image'), createcategory);
+router.patch('/Categories:id',upload.single('image'), updatecategory);
+router.delete('/Categories:id', deletecategory); 
 
-router.get('/:id', getCategory)
-
-router.post('/',upload.single('image'), createCategory)
-
-router.delete('/:id', deleteCategory)
-
-router.patch('/:id',upload.single('image'), updateCategory)
-
-module.exports = router
+export default router;

@@ -1,26 +1,12 @@
-const express = require('express')
-const app = express();
-const router = express.Router()
-const upload = require('../Middleware/multer')
-const {getProducts,addProduct, deleteProduct, viewProduct, editProduct,getBestsellers,getProductsByCategory} = require('../Controllers/productsController')
+import express from 'express';
+import { getallProducts , getproductById , createproduct , updateproduct , deleteproduct } from '../Controllers/productsController.js';
+import upload from '../Middleware/Multer.js';
+const router = express.Router();
 
+router.get('/products', getallProducts)
+router.get('/products:id' , getproductById)
+router.post('/products',upload.single('image'), createproduct);
+router.patch('/products:id',upload.single('image'), updateproduct);
+router.delete('/products:id', deleteproduct); 
 
-// Get all Products
-
-router.get('/',getProducts);
-// GET a single Products
-router.get('/:id', viewProduct)
-// POST a new Products
-router.post('/', upload.single('image'),addProduct);
-// DELETE a Product
-router.delete('/:id',deleteProduct);
-
-// get bestsellers
-router.get('/bestsellers/recommend',getBestsellers)
-
-// UPDATE a Product
-router.patch('/:id',upload.single('image'),editProduct);
-
-// get products by category ID
-router.get('/byCategoryId/:id',getProductsByCategory)
-module.exports = router
+export default router;

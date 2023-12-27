@@ -1,45 +1,36 @@
-const mongoose = require('mongoose');
+import { DataTypes } from 'sequelize';
+import sequelize from "../Config/database.js";
 
-const Schema = mongoose.Schema
-
-const Products = new Schema(
-    {
-        name:
-        {
-            type: String,
-            required: true
+const ProductsModule = sequelize.define('Products', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notNull: { msg: "First name is required" },
+            notEmpty: { msg: "First name must not be empty" },
         },
-        description:
-        {
-            type: String,
-            required: true
-        },
+    },
+    description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    image: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    price: {
+        type: DataTypes.DOUBLE, // Change data type to DOUBLE
+        allowNull: true,
+    },
+    recommended: {
+        type: DataTypes.DOUBLE, // Change data type to DOUBLE
+        allowNull: true,
+    },
+});
 
-        image:
-        {
-            type:String
-           
-        },
-        price:
-        {
-            type:Number,
-            required: true
-        },
-        categoryId:
-        {
-            type: mongoose.Types.ObjectId, ref: 'Category',
-
-            required: true
-        },
-        recommended:
-        {
-            type:Boolean ,
-            default: false
-          
-        
-        }
-
-    })
-
-    
-module.exports = mongoose.model('Product', Products)
+export default ProductsModule;

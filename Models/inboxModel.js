@@ -1,32 +1,40 @@
+import { DataTypes } from 'sequelize';
+import sequelize from "../Config/database.js";
 
-const mongoose = require('mongoose');
-
-const Schema = mongoose.Schema;
-
-const Inbox = new Schema({
-    firstName:{
-        type: String,
-        required: true
+const MessagesModule = sequelize.define('Messages', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
     },
-    lastName:{
-        type: String,
-        required: true
+    first_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notNull: { msg: "First name is required" },
+            notEmpty: { msg: "First name must not be empty" },
+        },
     },
-    email:{
-        type: String,
-        required: true
+    last_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notNull: { msg: "Last name is required" },
+            notEmpty: { msg: "Last name must not be empty" },
+        },
     },
-    status:{
-        type:Boolean,
-        default:false
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
     },
-    message:{
-        type:String,
-        required:true
-    }
-    
+    status: {
+        type: DataTypes.STRING, 
+        allowNull: true,
+    },
+    messages: {
+        type: DataTypes.STRING, 
+        allowNull: false,
+    },
+});
 
-   
-
-})
-module.exports = mongoose.model('Inbox',Inbox);
+export default MessagesModule;

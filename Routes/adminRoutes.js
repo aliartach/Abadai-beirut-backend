@@ -1,14 +1,13 @@
-const express = require('express');
-const router = express.Router()
-const {loginAdmin, addAdmin} = require('../Controllers/adminController');
+import express from 'express';
+import { getalladmins , getadminById , createadmin , updateadmin , deleteadmin } from '../Controllers/adminController.js';
 
+const router = express.Router();
 
-// check the password and username
-router.post('/', loginAdmin)
+router.get('/Admins', getalladmins)
+router.get('/Admins:id' , getadminById)
+router.post('/Admins', createadmin);
+router.patch('/Admins:id', updateadmin);
+router.delete('/Admins:id', deleteadmin); 
 
-
-// Create a new record
-router.post('/addRecord',addAdmin);
-
-module.exports = router
+export default router;
 

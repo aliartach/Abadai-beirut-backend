@@ -1,102 +1,78 @@
-const mongoose = require('mongoose');
-const Inbox = require('../Models/inboxModel')
+import Messages from "../Models/inboxModel.js";
 
-
-//////////////////////////////////////////////GET ALL FUNCTION//////////////////////////
-const getMessage = async(req,res) => {
-    try{
-        const inbox = await Inbox.find();
-        res.status(200).json(inbox);
-
-    }
-    catch (error){
-        res.status(500).json({mssg: "you have zero inbox"});
-
-    }
+export const getallMessages = async (req, res) => {
+  try {
+    const message = await Messages.findAll();
+    res.json(message);
+  } catch (error) {
+    console.error("Failed to fetch message:", error);
+    res.status(500).json({ error: "Failed to fetch message" });
+  }
 };
- //////////////////////////////////////////////GET ALL FUNCTION//////////////////////////
 
-
-/////////////////////////////////////////////////ADD FUNCTION//////////////////////////
-const addMessage =  async (req, res) => {                                            //
-    const{firstName, lastName, email, status, message, time} = req.body                    //
-    try{                                                                             //
-        const inbox = await Inbox.create({firstName, lastName, email, status, message})
-        res.status(200).json(inbox)                                                  //
-    }                                                                                //
-    catch (error){                                                                   //
-        res.status(400).json({error: error.message})                                 //
-    }                                                                                //
-}                                                                                    //
-/////////////////////////////////////////////////ADD FUNCTION//////////////////////////
-
-//////////////////////////////////////////////UPDATE FUNCTION//////////////////////////
-const updateMessage = async (req, res) => {
-    const { id } = req.params; 
-    const { firstName, lastName, email, status, message } = req.body;
-    try {
-      const inbox = await Inbox.findByIdAndUpdate(
-        id,
-        { firstName, lastName, email, status, message },
-        { new: true }
-      );
-  
-      if (!inbox) {
-        return res.status(404).json({ error: "Message not found" });
-      }
-  
-      res.status(200).json(inbox);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+export const getmessageById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const message = await Messages.findByPk(id);
+    if (!message) {
+      return res.status(404).json({ error: "Articles not found" });
     }
-  };
-  
+    res.json(message);
+  } catch (error) {
+    console.error("Failed to fetch message:", error);
+    return res.status(500).json({ error: "Failed to fetch message" });
+  }
+};
 
+export const createmessage = async (req, res) => {
+  try {
+    const {  first_name,  last_name , email, status , messages } = req.body;
+    const message = await Messages.create({ first_name, last_name , email , status ,messages }).json;
+    res.status(201).json(message);
+  } catch (error) {
+    console.error("Error creating message:", error);
+    res
+      .status(500)
+      .json({ error: "Failed to create message", details: error.message });
+  }
+};
 
-//////////////////////////////////////////////UPDATE FUNCTION//////////////////////////
-
-
-
-//////////////////////////////////////////////DELETE FUNCTION//////////////////////////
-const deleteMessage = async (req, res) => {                                          
-    const { id } = req.params;                                                      
-    try {
-      const inbox = await Inbox.findOneAndDelete(id);
-  
-      if (!inbox) {
-        return res.status(404).json({ error: "Message not found" });
-      }
-  
-      res.status(200).json({ message: "Message deleted successfully" });
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+export const updatemessage = async (req, res) => {
+  const { id } = req.params;
+  const {  first_name,  last_name , email, status , messages     } = req.body;
+  try {
+    const message = await Messages.findByPk(id);
+    if (!message) {
+      return res.status(404).json({ error: "message not found" });
     }
-  };
-  //////////////////////////////////////////////DELETE FUNCTION//////////////////////////
 
- 
+    message.first_name = first_name;
+    message.last_name = last_name;
+    message.email = email;
+    message.status = status;
+    message.messages = messages;
 
 
+    await message.save();
+    res.json(message);
+  } catch (error) {
+    console.error("Failed to update message:", error);
+    res.status(500).json({ error: "Failed to update message" });
+  }
+};
 
- //////////////////////////////////////////////GETID FUNCTION//////////////////////////
-
-  const getMessageById = async (req, res) => {
-    const { id } = req.params; 
-    try {
-      const inbox = await Inbox.findById({_id:id});
-  
-      if (!inbox) {
-        return res.status(404).json({ error: "Message not found" });
-      }
-  
-      res.status(200).json(inbox);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+export const deletemessage = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const message = await Messages.findByPk(id);
+    if (!message) {
+      return res.status(404).json({ error: "message not found" });
     }
-  };
 
- //////////////////////////////////////////////GETID FUNCTION//////////////////////////
-
-  
-
-module.exports  = {getMessage,addMessage,updateMessage, deleteMessage, getMessageById}
+    await message.destroy();
+    res.json({ message: "message deleted successfully" });
+  } catch (error) {
+    console.error("Failed to delete message:", error);
+    res.status(500).json({ error: "Failed to delete message" });
+  }
+};
