@@ -1,22 +1,20 @@
-// const mongoose = require('mongoose')
+import { DataTypes } from "sequelize";
+import sequelize from "../config/connection.js";
 
-// const Schema = mongoose.Schema
+const Categories = sequelize.define("Categories", {
+  
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      notNull: { msg: "First name is required" },
+      notEmpty: { msg: "First name must not be empty" },
+    },
+  },
+  image: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+});
 
-// const Categories = new Schema(
-//     {
-//         name : 
-//         {
-//             type : String,
-//             required: true
-//         },
-
-//         image :
-//         {
-//             type : String
-//         },
-//         productId: {
-//             type:mongoose.Types.ObjectId, ref: 'Product',
-//         }
-//     }
-// )
-// module.exports = mongoose.model('Category', Categories)
+export default Categories;

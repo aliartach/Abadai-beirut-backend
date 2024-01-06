@@ -1,45 +1,36 @@
-// const mongoose = require('mongoose');
+import { DataTypes } from "sequelize";
+import sequelize from "../config/connection.js";
 
-// const Schema = mongoose.Schema
+const Products = sequelize.define("Products", {
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      notNull: { msg: "First name is required" },
+      notEmpty: { msg: "First name must not be empty" },
+    },
+  },
+  description: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  image: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  quantity: {
+    type: DataTypes.INTEGER,
+    defaultValue: 1,
+  },
+  price: {
+    type: DataTypes.DOUBLE, // Change data type to DOUBLE
+    allowNull: true,
+  },
+  recommended: {
+    type: DataTypes.BOOLEAN, // Change data type to DOUBLE
+    allowNull: true,
+  },
+});
 
-// const Products = new Schema(
-//     {
-//         name:
-//         {
-//             type: String,
-//             required: true
-//         },
-//         description:
-//         {
-//             type: String,
-//             required: true
-//         },
 
-//         image:
-//         {
-//             type:String
-           
-//         },
-//         price:
-//         {
-//             type:Number,
-//             required: true
-//         },
-//         categoryId:
-//         {
-//             type: mongoose.Types.ObjectId, ref: 'Category',
-
-//             required: true
-//         },
-//         recommended:
-//         {
-//             type:Boolean ,
-//             default: false
-          
-        
-//         }
-
-//     })
-
-    
-// module.exports = mongoose.model('Product', Products)
+export default Products;
